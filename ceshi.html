@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>呼吸道疾病筛查问卷</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 15px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 105, 148, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(90deg, #0066cc 0%, #00a3cc 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+        
+        .logo i {
+            font-size: 36px;
+        }
+        
+        header h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .disclaimer {
+            background: #fff8e6;
+            color: #e68a00;
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 1px solid #ffd699;
+        }
+        
+        /* 表单样式 */
+        .form-container {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            color: #0066cc;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e6f7ff;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            background: #e6f7ff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+            font-size: 15px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            background: #fafafa;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #00a3cc;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 163, 204, 0.2);
+        }
+        
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-item, .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: #f8f8f8;
+            transition: all 0.2s;
+        }
+        
+        .radio-item:hover, .checkbox-item:hover {
+            background: #edf8ff;
+        }
+        
+        .radio-item input, .checkbox-item input {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        .inline-input {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            margin-left: 30px;
+        }
+        
+        .inline-input input {
+            width: 80px;
+            margin: 0 8px;
+            padding: 10px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #ff3366;
+        }
+        
+        /* 按钮样式 */
+        .btn-container {
+            text-align: center;
+            padding: 15px 0;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(90deg, #00a3cc 0%, #0066cc 100%);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            font-size: 17px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* 成功弹窗 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 85%;
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-icon {
+            font-size: 70px;
+            color: #00cc66;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content h2 {
+            font-size: 24px;
+            color: #006633;
+            margin-bottom: 15px;
+        }
+        
+        .modal-content p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .modal-btn {
+            background: linear-gradient(90deg, #00cc66 0%, #009955 100%);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 380px) {
+            header {
+                padding: 15px;
+            }
+            
+            header h1 {
+                font-size: 20px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-lungs"></i>
+            </div>
+            <h1>呼吸道疾病筛查问卷</h1>
+            <p>本问卷用于健康评估，结果不作为临床诊断依据</p>
+        </header>
+        
+        <div class="disclaimer">
+            <i class="fas fa-exclamation-circle"></i> 温馨提示：请根据您的真实情况填写，所有信息将严格保密
+        </div>
+        
+        <div class="form-container">
+            <form id="screening-form">
+                <!-- 基本信息 -->
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-user"></i>
+                        <h2>基本信息</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">性别</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="male" name="gender" value="male" required>
+                                <label for="male">男</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="female" name="gender" value="female">
+                                <label for="female">女</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="age" class="required">年龄</label>
+                                <input type="number" id="age" name="age" min="1" max="120" required>
+                            </div>
+                            
+                            <div class="input-field">
+                                <label for="height" class="required">身高 (cm)</label>
+                                <input type="number" id="height" name="height" min="50" max="250" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-row">
+                            <div class="input-field">
+                                <label for="weight" class="required">体重 (kg)</label>
+                                <input type="number" id="weight" name="weight" min="5" max="300" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="occupation">职业</label>
+                        <input type="text" id="occupation" name="occupation">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="required">电话</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">您是</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="type-checkup" name="visit-type" value="体检" required>
+                                <label for="type-checkup">体检</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="type-outpatient" name="visit-type" value="门诊">
+                                <label for="type-outpatient">门诊</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="type-other-dept" name="visit-type" value="呼吸科以外其他科室就诊">
+                                <label for="type-other-dept">呼吸科以外其他科室就诊</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="type-other" name="visit-type" value="其他">
+                                <label for="type-other">其他</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 呼吸系统症状评估 -->
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-stethoscope"></i>
+                        <h2>呼吸系统症状评估</h2>
+                    </div>
+                    <p style="margin-bottom: 15px; color: #666; font-size: 14px;">请勾选过去12个月内是否出现以下症状</p>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom1" name="symptoms" value="间断咳嗽（>8周）">
+                            <label for="symptom1">间断咳嗽（>8周）</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom2" name="symptoms" value="活动后气短（如爬3层楼梯感到呼吸困难）">
+                            <label for="symptom2">活动后气短（如爬3层楼梯感到呼吸困难）</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom3" name="symptoms" value="夜间喘息或气短或有憋醒">
+                            <label for="symptom3">夜间喘息或气短或有憋醒</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom4" name="symptoms" value="晨起咳痰量多（≥3个月）">
+                            <label for="symptom4">晨起咳痰量多（≥3个月）</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom5" name="symptoms" value="接触刺激气味、花粉、灰尘或者空气冷热转变后出现咳嗽">
+                            <label for="symptom5">接触刺激气味、花粉、灰尘或者空气冷热转变后出现咳嗽</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom6" name="symptoms" value="春秋季节反复打喷嚏、流清涕，或有鼻塞、鼻痒、眼睛痒等">
+                            <label for="symptom6">春秋季节反复打喷嚏、流清涕，或有鼻塞、鼻痒、眼睛痒等</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptom7" name="symptoms" value="既往诊断过哮喘/慢阻肺/肺纤维化">
+                            <label for="symptom7">既往诊断过哮喘/慢阻肺/肺纤维化</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 生活习惯与暴露史 -->
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-smoking"></i>
+                        <h2>生活习惯与暴露史</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">吸烟史</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="smoke-never" name="smoking" value="从不" required>
+                                <label for="smoke-never">从不</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="smoke-quit" name="smoking" value="已戒烟">
+                                <label for="smoke-quit">已戒烟</label>
+                                <span class="inline-input">
+                                    <input type="number" id="quit-years" name="quit-years" min="0" max="100" placeholder="年" disabled>
+                                </span>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="smoke-current" name="smoking" value="当前吸烟">
+                                <label for="smoke-current">当前吸烟</label>
+                                <span class="inline-input">
+                                    <input type="number" id="cigarettes-per-day" name="cigarettes-per-day" min="0" max="200" placeholder="支/天" disabled>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">二手烟暴露</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="secondhand-daily" name="secondhand" value="每日" required>
+                                <label for="secondhand-daily">每日</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="secondhand-occasionally" name="secondhand" value="偶尔">
+                                <label for="secondhand-occasionally">偶尔</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="secondhand-none" name="secondhand" value="无">
+                                <label for="secondhand-none">无</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>职业粉尘接触</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="dust-yes" name="dust-exposure" value="有">
+                                <label for="dust-yes">有</label>
+                                <span class="inline-input">
+                                    <input type="text" id="dust-details" name="dust-details" placeholder="请注明" disabled>
+                                </span>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="dust-no" name="dust-exposure" value="无">
+                                <label for="dust-no">无</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 筛查认知与意愿 -->
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-clipboard-check"></i>
+                        <h2>筛查认知与意愿</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>您的肺功能检查结果</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="lung-small-airway" name="lung-function" value="小气道功能障碍">
+                                <label for="lung-small-airway">小气道功能障碍</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="lung-obstructive" name="lung-function" value="阻塞性通气功能障碍">
+                                <label for="lung-obstructive">阻塞性通气功能障碍</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="lung-restrictive" name="lung-function" value="限制性通气功能障碍">
+                                <label for="lung-restrictive">限制性通气功能障碍</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="lung-nonspecific" name="lung-function" value="非特异性肺功能异常">
+                                <label for="lung-nonspecific">非特异性肺功能异常</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="lung-bronchodilator" name="lung-function" value="支气管舒张试验阳性">
+                                <label for="lung-bronchodilator">支气管舒张试验阳性</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="lung-other" name="lung-function" value="其他">
+                                <label for="lung-other">其他</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>您的胸部CT检查结果</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ct-bronchitis" name="ct-results" value="慢性支气管炎">
+                                <label for="ct-bronchitis">慢性支气管炎</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ct-emphysema" name="ct-results" value="肺气肿">
+                                <label for="ct-emphysema">肺气肿</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ct-bulla" name="ct-results" value="肺大泡">
+                                <label for="ct-bulla">肺大泡</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ct-fibrosis" name="ct-results" value="肺纤维化">
+                                <label for="ct-fibrosis">肺纤维化</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ct-other" name="ct-results" value="其他">
+                                <label for="ct-other">其他</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">若兰大二院呼吸与危重症医学科联系您来门诊就诊，您的就诊意愿</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="willing-yes" name="willingness" value="愿意" required>
+                                <label for="willing-yes">愿意</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="willing-maybe" name="willingness" value="需要考虑">
+                                <label for="willing-maybe">需要考虑</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="willing-no" name="willingness" value="不愿意">
+                                <label for="willing-no">不愿意</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>希望获得的呼吸健康服务（可多选）</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="service-lecture" name="health-services" value="专家讲座">
+                                <label for="service-lecture">专家讲座</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="service-quit" name="health-services" value="戒烟指导">
+                                <label for="service-quit">戒烟指导</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="service-rehab" name="health-services" value="呼吸康复训练">
+                                <label for="service-rehab">呼吸康复训练</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="service-other" name="health-services" value="其他">
+                                <label for="service-other">其他</label>
+                                <span class="inline-input">
+                                    <input type="text" id="other-service-details" name="other-service-details" placeholder="请说明" disabled>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="btn-container">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> 提交问卷
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 成功弹窗 -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>提交成功！</h2>
+            <p>感谢您参与呼吸道疾病筛查问卷，您的信息已成功提交。</p>
+            <p>医生将尽快审核您的问卷，如有需要会通过电话与您联系，请保持电话畅通。</p>
+            <button class="modal-btn" id="close-modal">确定</button>
+        </div>
+    </div>
+
+    <script>
+        // 表单提交处理
+        document.getElementById('screening-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 显示成功弹窗
+            document.getElementById('success-modal').classList.add('active');
+            
+            // 在实际应用中，这里应该发送数据到服务器
+            // 现在只显示成功消息
+            console.log('表单数据已提交');
+        });
+        
+        // 关闭弹窗
+        document.getElementById('close-modal').addEventListener('click', function() {
+            document.getElementById('success-modal').classList.remove('active');
+        });
+        
+        // 启用/禁用相关输入字段
+        document.querySelectorAll('input[type="radio"][name="smoking"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('quit-years').disabled = this.value !== '已戒烟';
+                document.getElementById('cigarettes-per-day').disabled = this.value !== '当前吸烟';
+            });
+        });
+        
+        document.querySelectorAll('input[type="radio"][name="dust-exposure"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('dust-details').disabled = this.value !== '有';
+            });
+        });
+        
+        document.getElementById('service-other').addEventListener('change', function() {
+            document.getElementById('other-service-details').disabled = !this.checked;
+        });
+        
+        // 点击弹窗外部关闭
+        document.getElementById('success-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
